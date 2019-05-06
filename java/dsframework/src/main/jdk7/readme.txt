@@ -1,0 +1,1 @@
+为了兼容JDK6移除了这两个使用异步Socket的实现，用SocketWriterSync和SocketReaderSync代替

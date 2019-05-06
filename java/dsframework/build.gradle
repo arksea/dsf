@@ -1,0 +1,48 @@
+sourceCompatibility = '1.7'
+targetCompatibility = '1.7'
+
+if (!hasProperty('mainClass')) {
+    ext.mainClass = ''
+}
+
+dependencies {
+    compile fileTree(dir : "./vendor", include : "*.jar")
+    compile "cglib:cglib:1.0"
+    compile "org.apache.commons:commons-pool2:2.2"
+    compile "com.google.code.gson:gson:2.2.2"
+    compile "com.google.guava:guava:15.0"
+    compile "org.springframework:spring-context:4.2.2.RELEASE"
+    compile  'org.springframework:spring-web:4.2.2.RELEASE'
+    compile "com.typesafe.akka:akka-actor_2.11:2.3.2"
+    compile 'cn.q-game:akka-log4j2-logger_2.11:1.0.0'
+}
+
+//jar {
+//    manifest {
+//        attributes "Class-Path": configurations.runtime.collect { 'lib/'+it.getName() }.join(' ')
+//    }
+//}
+
+uploadArchives {
+    repositories.mavenDeployer {
+        repository(url: "http://172.17.156.61:8081/nexus/content/repositories/releases") {
+            authentication(userName: "admin", password: "admin123")
+        }
+        snapshotRepository(url: "http://172.17.156.61:8081/nexus/content/repositories/snapshots") {
+            authentication(userName: "admin", password: "admin123")
+        }
+    }
+}.dependsOn(assemble)
+
+task publish <<{
+    delete('dist')
+    copy{
+        from 'build/libs/'
+        into 'dist'
+    }
+    copy{
+        from configurations.runtime
+        into 'dist/lib' 
+    }
+}
+publish.dependsOn(assemble)

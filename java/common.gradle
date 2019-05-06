@@ -1,0 +1,64 @@
+//
+// This file is to be applied to every subproject.
+//
+
+apply plugin: 'java'
+apply plugin: 'maven'
+
+String mavenGroupId = 'com.baidu'
+String mavenVersion = '1.3.2-SNAPSHOT'
+
+[compileJava, compileTestJava]*.options*.encoding = 'UTF-8'
+
+repositories {
+    mavenLocal()
+    maven { url "http://172.17.156.61:8081/nexus/content/groups/public/" }
+    maven { url "http://repo.maven.apache.org/maven2" }
+}
+
+dependencies {
+    testCompile "junit:junit:4.10"
+    compile 'org.apache.logging.log4j:log4j-api:2.5'
+    compile 'org.apache.logging.log4j:log4j-core:2.5'
+    //Log4j 1.x Bridge to Log4j 2.x
+    compile 'org.apache.logging.log4j:log4j-1.2-api:2.5'
+    //Apache Commons Logging Bridge to Log4j 2.x
+    compile 'org.apache.logging.log4j:log4j-jcl:2.5'
+    //slf4j Bridge to Log4j 2.x
+    compile 'org.apache.logging.log4j:log4j-slf4j-impl:2.5'
+    //Java Util Logging Bridge to Log4j 2.x
+    compile 'org.apache.logging.log4j:log4j-jul:2.5'
+    compile "org.apache.thrift:libthrift:0.9.1"
+}
+
+String mavenArtifactId = name
+
+group = mavenGroupId
+version = mavenVersion
+
+task sourcesJar(type: Jar, dependsOn: classes, description: 'Creates a jar from the source files.') {
+    classifier = 'sources'
+    from sourceSets.main.allSource
+}
+
+artifacts {
+    archives jar
+    archives sourcesJar
+}
+
+configure(install.repositories.mavenInstaller) {
+    pom.project {
+        groupId = mavenGroupId
+        artifactId = mavenArtifactId
+        version = mavenVersion
+    }
+}
+
+task createFolders(description: 'Creates the source folders if they do not exist.') doLast {
+    sourceSets*.allSource*.srcDirs*.each { File srcDir ->
+        if (!srcDir.isDirectory()) {
+            println "Creating source folder: ${srcDir}"
+            srcDir.mkdirs()
+        }
+    }
+}

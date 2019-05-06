@@ -1,0 +1,48 @@
+package com.baidu.dsf.thrift;
+
+import com.baidu.dsf.register.MsgServiceDefine;
+import com.baidu.dsf.register.MsgSvcAddr;
+import com.baidu.dsf.register.ServiceInstance;
+import org.apache.thrift.protocol.TBinaryProtocol;
+import org.apache.thrift.protocol.TCompactProtocol;
+import org.apache.thrift.protocol.TProtocol;
+import org.apache.thrift.transport.TFramedTransport;
+import org.apache.thrift.transport.TSocket;
+import org.apache.thrift.transport.TTransportException;
+import org.apache.thrift.transport.TZlibSocket;
+import org.apache.thrift.transport.TTransport;
+
+/**
+ *
+ * @author arksea
+ */
+public class ProtocolFactory {
+
+    public static TProtocol create(MsgServiceDefine serviceInfo, ServiceInstance inst, int timeout) throws TTransportException {
+        String protocolStr = serviceInfo.getProperty("protocol");
+        if (protocolStr == null) protocolStr = "binary";
+        MsgSvcAddr svcAddr = inst.getAddr();
+        TSocket sock;
+        if (protocolStr.startsWith("zip-") || protocolStr.startsWith("framed-zip-")) {
+            sock = new TZlibSocket(svcAddr.getHost(), svcAddr.getPort(), timeout);
+        } else {
+            sock = new TSocket(svcAddr.getHost(), svcAddr.getPort(), timeout);
+        }
+        sock.open();
+        TTransport tt;
+        if (protocolStr.startsWith("framed-")) {
+            tt = new TTagFailedTransport(new TFramedTransport(sock));
+        } else {
+            tt = new TTagFailedTransport(sock);
+        }
+        TProtocol protocol;
+        if (protocolStr.endsWith("compact")) {
+            protocol = new TCompactProtocol(tt);
+
+        } else {
+            protocol = new TBinaryProtocol(tt);
+        }
+        return protocol;
+    }
+
+}
