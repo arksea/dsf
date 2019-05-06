@@ -1,0 +1,10 @@
+{application,reg_web,
+             [{description,"DSF Registry Server Web View"},
+              {vsn,"1.3"},
+              {registered,[]},
+              {applications,[kernel,stdlib,sasl,erlydtl,yaws]},
+              {mod,{reg_web_app,[]}},
+              {env,[]},
+              {modules,[ctrl_api,ctrl_appsvc,ctrl_editor,reg_web_app,
+                        reg_web_sup,view_add_appsvc_form,view_svc_state_table,
+                        view_svcdef_table,web_index_service,webdao]}]}.

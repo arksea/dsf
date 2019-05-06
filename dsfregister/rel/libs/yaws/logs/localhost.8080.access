@@ -1,0 +1,5 @@
+127.0.0.1 - - [30/Nov/2012:11:13:20 +0800] "GET /index.yaws HTTP/1.1" 200 80287 "-" "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.4 (KHTML, like Gecko) Chrome/22.0.1229.96 Safari/537.4"
+127.0.0.1 - - [30/Nov/2012:11:13:20 +0800] "GET /stil.css HTTP/1.1" 200 1672 "http://127.0.0.1:8080/index.yaws" "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.4 (KHTML, like Gecko) Chrome/22.0.1229.96 Safari/537.4"
+127.0.0.1 - - [30/Nov/2012:11:13:20 +0800] "GET /icons/yaws_head.gif HTTP/1.1" 200 2308 "http://127.0.0.1:8080/index.yaws" "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.4 (KHTML, like Gecko) Chrome/22.0.1229.96 Safari/537.4"
+127.0.0.1 - - [30/Nov/2012:11:13:20 +0800] "GET /icons/yaws_pb.gif HTTP/1.1" 200 1444 "http://127.0.0.1:8080/index.yaws" "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.4 (KHTML, like Gecko) Chrome/22.0.1229.96 Safari/537.4"
+127.0.0.1 - - [30/Nov/2012:11:13:23 +0800] "GET /icons/yaws_y.gif HTTP/1.1" 200 4831 "-" "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.4 (KHTML, like Gecko) Chrome/22.0.1229.96 Safari/537.4"

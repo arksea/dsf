@@ -1,0 +1,5 @@
+{"src/*", [{i, "include"},{i, "../dsf_base/include"},{i,"../rel/libs/yaws/include"},{i,"../reg_server/include"}, {outdir, "ebin"}]}.
+{"src/*/*", [{i, "include"},{i, "../dsf_base/include"},{i,"../rel/libs/yaws/include"},{i,"../reg_server/include"},{outdir, "ebin"}]}.
+{"../reg_web/src/*", [{i, "include"},{i, "../dsf_base/include"},{i,"../rel/libs/yaws/include"},{i,"../reg_server/include"},{outdir, "../rel_linux/unicorn/lib/reg_web-1.0/ebin"}]}.
+{"../reg_web/src/*/*", [{i, "include"},{i, "../dsf_base/include"},{i,"../rel/libs/yaws/include"},{i,"../reg_server/include"}, {outdir, "../rel_linux/unicorn/lib/reg_web-1.0/ebin"}]}.
+

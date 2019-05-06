@@ -1,0 +1,68 @@
+
+
+ERL="@ERL@"
+ERLC="@ERLC@"
+YTOP="@YTOP@"
+
+YAWS=$(YTOP)/bin/yaws
+
+COMPILER_PA = -pa $(YTOP)/ebin
+
+%.beam: %.erl
+	"$(ERLC)" -Ddebug $(COMPILER_PA) $<
+
+none:
+	echo "Do make clean|all|test"
+	exit 1
+
+.PHONY: tclean setup start i connect status stop
+
+tclean:
+	@rm -rf logs *.beam *.log yaws.conf erl_crash.dump 2> /dev/null || true
+
+setup:
+	@rm -rf logs 2> /dev/null
+	@mkdir logs
+
+start:	quiet_stop setup
+	set -e ; if [ -f ./yaws.conf ]; then \
+	  $(YTOP)/bin/yaws -sname test --daemon --id testid --conf ./yaws.conf; \
+	  $(YTOP)/bin/yaws --id testid --wait-started; \
+	fi
+
+## Interactive node
+i:
+	$(YTOP)/bin/yaws -sname test -i --id testid --conf ./yaws.conf
+
+PA =           -pa $(YTOP)/test/ibrowse/ebin  \
+               -pa $(YTOP)/test/src  \
+	       -pa $(YTOP)/ebin
+
+## connect to existing yaws node
+connect:
+	$(ERL) -sname client $(PA) \
+	       -s test connect `hostname`
+
+
+status:
+	$(YTOP)/bin/yaws  --id testid --status
+stop:
+	$(YTOP)/bin/yaws --id testid --stop && sleep 5 || true
+quiet_stop:
+	$(YTOP)/bin/yaws --id testid --stop >/dev/null 2>&1 && sleep 5 || true
+
+stdconf:
+	cat ../conf/stdconf.conf | \
+	../../scripts/Subst %YTOP% $(YTOP) > yaws.conf
+
+authconf:
+	cat ../conf/authconf.conf | \
+	../../scripts/Subst %YTOP% $(YTOP) > yaws.conf
+
+revproxyconf:
+	cat ../conf/revproxy.conf | \
+	../../scripts/Subst %YTOP% $(YTOP) > yaws.conf
+
+deflateconf:
+	cat ../conf/deflate.conf | \
+	../../scripts/Subst %YTOP% $(YTOP) > yaws.conf

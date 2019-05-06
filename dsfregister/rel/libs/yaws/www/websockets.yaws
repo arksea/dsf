@@ -1,0 +1,60 @@
+<erl>
+
+
+box(Str) ->
+    {'div',[{class,"box"}],
+     {pre,[],yaws_api:htmlize(Str)}}.
+
+tbox(T) ->
+    box(lists:flatten(io_lib:format("~p",[T]))).
+
+
+ssi(File) ->
+    {'div',[{class,"box"}],
+     {pre,[],
+      {ssi, File,[],[]}}}.
+
+
+out(A) ->
+    [{ssi, "TAB.inc", "%%",[{"websockets", "choosen"}]},
+     {ehtml,
+     {'div',[{id, "entry"}],
+      [{h1, [], "Web Sockets in Yaws"},
+
+       {p, [], ["Web Sockets! The new kid in town! Joe ", {a, [{href, "http://armstrongonsoftware.blogspot.com/2009/12/comet-is-dead-long-live-websockets.html"}], "loves it"}, ", maybe you should too?"]},
+
+       {p, [], "Web Sockets allow for *real* two-way communication between the browser and Yaws without the overhead and latency that come with polling/long-polling solutions. That should be enough for an introduction. Now... how to use it?"},
+
+	   {p, [], "First start by returning:"},
+
+       box(" {websocket, CallbackMod, Options}"),
+
+       {p,[], "from the out/1 function, where CallbackMod is an atom identifying your Websocket callback module, and Options can be an empty list."
+               " This makes the erlang process within yaws processing that particular page do a protocol upgrade from HTTP to the Web Socket Protocol, after which messages received by the server call handle_message in the callback module, and messages can be sent on the Websocket using yaws_api:websocket_send/2."},
+       {p, [], "The callback module should implement a function handle_message as follows:"},
+       box("handle_message({Type, Data}) -> HandlerResult
+Type :: text|binary
+Data :: binary()
+HandlerResult :: {reply, {Type, Data}}
+               | noreply
+               | {close, Reason}"),
+       {p, [], "When not replying to a message from a client, you can send messages using"},
+       box("yaws_api:websocket_send(Pid, {Type, Data})"),
+       {p, [], "Enough theory for now. Sample echo server follows!"},
+
+       ssi("websockets_example_endpoint.yaws"),
+
+       {p, [],
+        ["The above code can be executed ",
+         {a, [{href, "websockets_example.yaws"}], "Here"},
+         "."]}
+
+       ]}},
+       {ssi, "END2",[],[]}
+       ].
+
+
+</erl>
+
+
+</html>

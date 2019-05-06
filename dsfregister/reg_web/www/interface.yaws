@@ -1,0 +1,4 @@
+<erl>
+    out(Args) ->
+        web_index_service:handle_request(Args).
+</erl>

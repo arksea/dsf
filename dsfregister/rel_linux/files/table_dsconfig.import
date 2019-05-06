@@ -1,0 +1,4 @@
+{dsconfig, dsf_listener, {{port,12308},{acceptor_count,5}}}.
+{dsconfig, sys_listener, {port,12306}}.
+{dsconfig, alertor_addr, [{{192,168,253,251},9010},{{192,168,253,251},9010}]}.
+

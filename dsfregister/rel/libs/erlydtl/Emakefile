@@ -1,0 +1,3 @@
+{"src/*", [{outdir, "ebin"}]}.
+{"src/*/*", [{outdir, "ebin"}]}.
+{"tests/src/*", [debug_info, {outdir, "ebintest"}]}.

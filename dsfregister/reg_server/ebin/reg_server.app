@@ -1,0 +1,12 @@
+{application,reg_server,
+             [{description,"Register Server -- distributed application service register"},
+              {vsn,"1.1.9"},
+              {registered,[]},
+              {applications,[kernel,stdlib,sasl,mnesia]},
+              {mod,{reg_server_app,[]}},
+              {env,[]},
+              {modules,[dao,dbutil,ds_manager,dservice,dservice_sup,dsf,
+                        dsf_sup,json_util,jsonrfc,mnesia_cluster,perf_stat,
+                        reg_server_app,reg_server_sup,regsvc_misc,
+                        tcp_acceptor,tcp_acceptor_sup,tcp_client_sup,
+                        tcp_listener,tcp_listener_sup]}]}.

@@ -1,0 +1,14 @@
+{application, reg_server,
+ [
+  {description, "Register Server -- distributed application service register"},
+  {vsn, "1.1.9"},
+  {registered, []},
+  {applications, [
+                  kernel,
+                  stdlib,
+                  sasl,
+                  mnesia
+                 ]},
+  {mod, { reg_server_app, []}},
+  {env, []}
+ ]}.

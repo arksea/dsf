@@ -1,0 +1,63 @@
+<H1>应用服务定义</H1>
+<form action="/index.yaws/appsvc/{{action_path}}" method="POST">
+    <div class="editor_tool">
+        <button class="editor_tool_btn" type="submit" name="submit" value="update">保&emsp;存</button>
+        <button class="editor_tool_btn" type="submit" name="submit" value="cancel">取&emsp;消</button>
+    </div>
+
+    <fieldset><legend>基本信息</legend>
+        <ul>
+            <li>
+                <label class="fields_label">服务类名</label>
+                <input class="fields_longvalue" type="text" name="name" value="{{name}}" {{is_modify_exists_svc}}/>
+                <label class="fields_label"><code>版&emsp;&emsp;本</code></label>
+                <input class="fields_value" type="text" name="version" value="{{version}}" size="8" {{is_modify_exists_svc}}/>
+            </li>
+            <li>
+                <label class="fields_label">服务描述</label>
+                <input class="fields_longvalue" type="text" name="description" value="{{description}}"/>
+            </li>
+        </ul>
+    </fieldset>
+
+    <fieldset><legend>服务属性</legend>
+        <label class="fields_label">通讯协议</label>
+        <select id="protocol" class="fields_value" name="protocol">
+            <option>binary</option>
+            <option>framed-binary</option>
+            <option>zip-binary</option>
+            <option>compact</option>
+            <option>framed-compact</option>
+        </select>
+        <input id="protocol_value" type="hidden" name="protocol_value" value="{{props.protocol}}"/>
+
+        <label class="fields_label">路由策略</label>
+        <select id="route" class="fields_value" name="route">
+            <option>roundrobin</option>
+            <option>weighting-roundrobin</option>
+            <option>random-hold</option>
+            <option>hot-standby</option>
+        </select>
+        <input id="route_value" type="hidden" name="route_value" value="{{props.route_strategy}}"/>
+        
+        <label class="fields_label">失败策略</label>
+        <select id="failed" class="fields_value" name="failed">
+            <option>failfast</option>
+            <option>failover</option>
+            <option>failsafe</option>
+        </select>
+        <input id="failed_value" type="hidden" name="failed_value" value="{{props.fail_strategy}}"/>
+        
+        <label class="fields_label">超时时间</label>
+        <input class="fields_value" type="text" name="timeout" value="{{props.timeout}}"/>
+    </fieldset>
+
+    <label class="code_editor_title">ThriftIDL</label>
+    <div style="color:red">{{compile_info}}</div>
+    <textarea class="code_editor" name="thrift" cols="80" rows="40">{{thrift}}</textarea>
+
+</form>
+
+<script type="text/javascript" src="/script/edit_appsvc.js"></script>
+
+

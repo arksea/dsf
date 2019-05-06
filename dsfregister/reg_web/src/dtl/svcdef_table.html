@@ -1,0 +1,13 @@
+<table>
+    <caption> 应用服务列表 </caption>
+    <tr> <th>注册名</th> <th>属性</th> <th>服务器数量</th> <th>订阅者数量</th></tr>
+    {% for svcdef in svcdef_list %}
+    <tr>
+        <td> <a href="/index.yaws/appsvc/{{svcdef.regname}}"> {{svcdef.regname}} </a> </td>
+        <td> {{svcdef.props}} </td>
+        <td> {{svcdef.inst_count}} </td>
+        <td> {{svcdef.sub_count}} </td>
+    </tr>
+    {% endfor %}
+</table>
+

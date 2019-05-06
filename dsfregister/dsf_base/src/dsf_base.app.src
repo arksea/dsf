@@ -1,0 +1,16 @@
+{application, dsf_base,
+ [
+  {description, "DSF BASE Modules"},
+  {vsn, "1.1"},
+  {registered, []},
+  {applications, [
+                  kernel,
+                  stdlib,
+                  sasl,
+                  jsx,
+                  thrift,
+                  mnesia
+                 ]},
+  {mod, { dsf_base_app, []}},
+  {env, []}
+ ]}.

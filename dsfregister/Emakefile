@@ -1,0 +1,3 @@
+{"reg_server/src/*", [debug_info,{i, "reg_server/include"}, {i, "./dsf_base/include"}, {outdir, "./rel_linux/unicorn/lib/reg_server-1.0/ebin"}]}.
+{"reg_server/src/*/*", [debug_info,{i, "reg_server/include"}, {i, "./dsf_base/include"}, {outdir, "./rel_linux/unicorn/lib/reg_server-1.0/ebin"}]}.
+

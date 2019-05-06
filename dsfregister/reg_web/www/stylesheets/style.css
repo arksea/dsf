@@ -1,0 +1,116 @@
+body{
+	font-family:Arial, Helvetica, sans-serif;
+	font-size:12px;
+}
+
+#header,#verder_info{background-color:#65a5d1;}
+#page{background-color:#fff8e4}
+/*#middle{background-color:#fff8e4}
+#main{background-color:#fff8e4;}*/
+
+
+a{color:#4479d4; text-decoration:underline;}
+a:visited{color:#03406b;}
+a:hover{color:#3e94d2; text-decoration:underline;}
+
+.menuitem{
+	margin-bottom:18px;
+	margin-left:18px;
+	line-height:36px;
+}
+
+.tool_menuitem {
+    margin-left:4px;
+    font-size: 12px;
+}
+
+#verder_info{text-align:center;}
+#verder_info p{margin:0;}
+
+table {border:2px solid gray;border-collapse: collapse;}
+table caption{font-size:24px;margin-bottom:18px;}
+td {border:1px solid gray;padding:2px 6px 2px 6px;}
+th {border:1px solid gray;padding:2px 6px 2px 6px;}
+.table_label{text-align:center;font-size:16px;margin-top:24px;margin-bottom:18px;}
+
+#status_information{
+    color:red;
+    text-align: center;
+}
+
+h1, h2, h3{
+    text-align:center;
+}
+
+.h1_remark {
+    text-align: center;
+    margin-top: 4px;
+}
+
+form fieldset {
+    border:1px solid gray;
+    margin-bottom: 24px;
+}
+form label {
+    width: 60px;
+    margin-left: 18px;
+    margin-right: 2px;
+    margin-bottom: 8px;
+}
+form ul {
+    list-style-type: none;
+}
+.fields_value {
+    margin-right: 18px;
+    margin-bottom: 8px;
+    width: 112px;
+}
+.fields_longvalue {
+    margin-right: 18px;
+    margin-bottom: 8px;
+    width: 60%;
+}
+.form_fields_table {
+    border:0px;
+}
+
+.appsvc_info_group {
+    margin-top: 48px;
+}
+#svcdef_titel {
+    margin-left: 24px;
+    padding-bottom: 0px;
+    font-size: 24px;
+}
+#svcdef_op {
+    margin-left: 8px;
+}
+.title_op {
+    margin-left:4px;
+    font-size: 12px;
+}
+#svcdef_info {
+    margin-left: 32px;
+    margin-bottom: 48px;
+    font-size: 18px;
+}
+#svcdef_info li {
+    line-height: 24px;
+}
+
+.code_editor {
+    width: 98%;
+    padding: 12px;
+    margin-bottom: 48px;
+}
+.code_editor_title {
+    margin-left: 24px;
+    margin-bottom: 4px;
+    font-size: 24px;
+}
+.editor_tool {
+    text-align: right;
+}
+.editor_tool_btn {
+    margin-right: 24px;
+}

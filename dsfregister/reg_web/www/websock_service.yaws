@@ -1,0 +1,26 @@
+<erl>
+    out(Args) ->
+        case yaws_api:queryvar(Args,"view") of
+            {ok,View} ->
+                CallbackMod = get_module_by_view(View),
+                Opts = [{origin, "http://" ++ (Args#arg.headers)#headers.host}],
+                {websocket, CallbackMod, Opts};
+            undefined ->
+                {html,"not defined view module"}
+        end.
+
+    get_module_by_view(Name) ->
+        case ets:lookup(view_module_map,Name) of
+            [] ->
+                File = Name ++ ".beam",
+                io:format("file: ~p~n",[File]),
+                case code:where_is_file(File) of
+                    non_existing ->
+                        {html,"请求的页面不存在"};
+                    _ ->
+                        Module = list_to_atom(Name)
+                end;
+            [{Name,Module}] ->
+                Module
+        end.
+</erl>

@@ -1,0 +1,8 @@
+{"src/*",     [debug_info,{i, "include"},{i, "../dsf_base/include"}, {outdir, "ebin"}]}.
+{"src/*/*",   [debug_info,{i, "include"},{i, "../dsf_base/include"}, {outdir, "ebin"}]}.
+%% {"./src/*",   [debug_info,{i, "include"},{i, "../dsf_base/include"}, {outdir, "../rel/unicorn_release/lib/reg_server-1.1/ebin"}]}.
+%% {"./src/*/*", [debug_info,{i, "include"},{i, "../dsf_base/include"}, {outdir, "../rel/unicorn_release/lib/reg_server-1.1/ebin"}]}.
+%% {"../reg_server/src/*", [debug_info,{i, "include"}, {i, "../dsf_base/include"}, {outdir, "../rel1/unicorn_release/lib/reg_server-1.1/ebin"}]}.
+%% {"../reg_server/src/*/*", [debug_info,{i, "include"}, {i, "../dsf_base/include"}, {outdir, "../rel1/unicorn_release/lib/reg_server-1.1/ebin"}]}.
+
+

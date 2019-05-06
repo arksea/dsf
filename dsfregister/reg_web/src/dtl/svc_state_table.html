@@ -1,0 +1,75 @@
+<H1>{{description}}</H1>
+<div class="h1_remark">{{regname}}</div>
+
+<table class="appsvc_info_group"><caption>服务实例</caption>
+    <tr> <th>IP地址</th> <th>端口</th> <th>服务状态</th> <th>最后更新</th> </tr>
+    {% for state in state_list %}
+    <tr>
+        <td> {{state.host}} </td>
+        <td> {{state.port}} </td>
+        <td> {{state.states}} </td>
+        <td> {{state.update_time}} </td>
+    </tr>
+    {% endfor %}
+</table>
+
+<table class="appsvc_info_group"><caption>订阅者</caption>
+    <tr> <th>名称</th> <th>IP地址</th> <th>端口</th> <th>在线状态</th> <th>登录时间</th></tr>
+    {% for subscribe in subscribe_list %}
+    <tr>
+        <td> {{subscribe.name}} </td>
+        <td> {{subscribe.host}} </td>
+        <td> {{subscribe.port}} </td>
+        <td> {{subscribe.online}} </td>
+        <td> {{subscribe.update_time}} </td>
+    </tr>
+    {% endfor %}
+</table>
+
+<table class="appsvc_info_group"><caption>依赖关系</caption>
+    <tr> <th>我依赖的服务</th></tr>
+    {% for rely in rely_list %}
+    <tr>
+        <td> <a href="/index.yaws/appsvc/{{rely.name}}"> {{rely.name}} </a> </td>
+    </tr>
+    {% endfor %}
+</table>
+
+<table class="appsvc_info_group"><caption>依赖关系</caption>
+    <tr> <th>依赖我的服务</th></tr>
+    {% for berelyed in berelyed_list %}
+    <tr>
+        <td> <a href="/index.yaws/appsvc/{{berelyed.name}}"> {{berelyed.name}} </a> </td>
+    </tr>
+    {% endfor %}
+</table>
+
+<div class="appsvc_info_group">
+<form id="form_svcdef_op" action="/index.yaws/appsvc/{{regname}}" method="POST">
+    <div>
+    <span id="svcdef_titel">服务定义</span>
+    <span id="svcdef_op">
+    <button class="title_op" type="submit" name="submit" value="modify">修改</button>
+    <button id="btn_delete" class="title_op" type="submit" name="submit" value="delete">删除</button>
+    </span>
+    </div>
+</form>
+<ul id="svcdef_info">
+    <li><code>注 册 名</code>: {{regname}}</li>
+    <li><code>类&emsp;&emsp;名</code>: {{name}}</li>
+    <li><code>版&emsp;&emsp;本</code>: {{version}}</li>
+    <li><code>描&emsp;&emsp;述</code>: {{description}}</li>
+    <li>通讯协议: {{props.protocol}}</li>
+    <li>路由策略: {{props.route_strategy}}</li>
+    <li>失败策略: {{props.fail_strategy}}</li>
+    <li>超时时间: {{props.timeout}} 毫秒</li>
+</ul>
+</div>
+
+<div class="appsvc_info_group">
+<span class="code_editor_title">ThriftIDL</span>
+
+<textarea class="code_editor" name="thrift" cols="80" rows="40" readonly="true">{{thrift}}</textarea>
+</div>
+
+<script type="text/javascript" src="/script/svc_state.js"></script>

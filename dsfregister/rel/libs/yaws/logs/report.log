@@ -1,0 +1,10 @@
+
+=INFO REPORT==== 30-Nov-2012::11:12:44 ===
+Ctlfile : c:/Users/arksea/AppData/Local/Temp/yaws/default/CTL
+
+=INFO REPORT==== 30-Nov-2012::11:12:44 ===
+Yaws: Listening to 0.0.0.0:8080 for <1> virtual servers:
+ - http://localhost:8080 under c:/Yaws-1.94/www
+
+=INFO REPORT==== 30-Nov-2012::11:20:44 ===
+stop_ready([], <0.60.0>)

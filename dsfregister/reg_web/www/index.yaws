@@ -1,0 +1,42 @@
+<!DOCTYPE HTML>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>DSF Register Server</title>
+    <link rel="stylesheet" href="/stylesheets/layout.css" type="text/css" media="screen" charset="utf-8" />
+    <link rel="stylesheet" href="/stylesheets/style.css"  type="text/css" media="screen" charset="utf-8" />
+</head>
+<body id="body">
+<div id="page">
+
+<div id="header">
+    <img id="oryx_logo_image" src="/images/oryx_logo.png" alt="Oryx Logo，四个堆叠的圆角三角形，中间为青色，三个为橙色">
+</div>
+
+<div id="middle">
+
+<div id="sidebar">
+    <div class="mainmenu">
+        <a class="menuitem" href="/index.yaws/appsvc">查看应用服务</a>
+        <a class="menuitem" href="/index.yaws/editor/appsvc">添加新的应用服务</a>
+    </div>
+</div> <!-- end of the sidebar -->
+
+<div id="main">
+    <erl>
+        out(Args) ->
+            web_index_service:handle_request(Args).
+    </erl>
+</div> <!-- end of the main -->
+
+</div> <!-- end of the middle -->
+
+<br class="clear"/>
+<div id="verder_info">
+    <p id="copyright"> Copyright &copy; 2014 baidu91, arksea, all rights reserved.</p>
+</div> 
+
+</div> <!-- end of the page -->
+</body>
+</html>
+

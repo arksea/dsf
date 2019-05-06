@@ -1,0 +1,31 @@
+#!/bin/bash
+# Init file for Baidu91 DSFramework Register Server daemon
+# chkconfig: 35 99 01 
+# description: DSFramwork Register Server
+# processname: erl
+#
+
+export HOME=/opt/unicorn
+
+start()
+{
+  cd $HOME
+  echo "[START] "  `date` >> start.log
+  touch /var/lock/subsys/unicorn
+  ulimit -n 10240
+  ./install/start_all.sh
+}
+
+stop()
+{
+  cd $HOME
+  echo "[STOP]  "  `date` >> start.log
+  rm -f /var/lock/subsys/unicorn
+  ./install/stop_all.sh
+}
+
+case "$1" in
+start)  start;;
+stop)   stop;;
+esac
+

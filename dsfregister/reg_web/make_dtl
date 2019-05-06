@@ -1,0 +1,37 @@
+#!/usr/bin/env escript
+%% -*- mode: erlang -*-
+-export([main/1]).
+
+%% External API
+
+
+main([SrcDir,DestDir]) ->
+    ensure(DestDir),
+    make_one_dir(SrcDir,DestDir),
+    completed;
+main(_) ->
+    usage().
+
+ensure(DestDir) ->
+    code:add_patha(DestDir),
+    code:add_patha("../rel_linux/libs/erlydtl/ebin"),
+    [D1,D2|_] = code:get_path(),
+    io:format("Code Path: ~p~n", [[D1,D2]]).
+
+usage() ->
+    io:format("usage: ~s srcdir [destdir]~n",
+              [filename:basename(escript:script_name())]),
+    halt(1).
+
+
+make_one_dir(SrcDir,DestDir) ->
+    io:format("make dtl to ~p~n",[DestDir]),
+    Fun = fun(File,_AccIn) -> make(File,DestDir) end,
+    filelib:fold_files(SrcDir,".*\.html$",true,Fun,0).
+
+make(File,DestDir) ->
+    Basename = filename:basename(File, ".html"),
+    ModuleName = list_to_atom(string:to_lower(lists:flatten(["view_", Basename]))),
+    io:format("compile ~p: ",[ModuleName]),
+    Ret = erlydtl:compile(File, ModuleName, [{out_dir, DestDir}]),
+    io:format("~p~n",[Ret]).
