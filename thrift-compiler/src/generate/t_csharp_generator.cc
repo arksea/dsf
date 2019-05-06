@@ -1225,6 +1225,9 @@ void t_csharp_generator::generate_service_interface(t_service* tservice) {
   indent_down();
   f_service_ <<
     indent() << "}" << endl << endl;
+
+  indent(f_service_) <<
+    "public interface Interface : Iface, IDisposable {" << endl << indent() <<  "}" <<endl;
 }
 
 void t_csharp_generator::generate_service_helpers(t_service* tservice) {
@@ -1245,53 +1248,59 @@ void t_csharp_generator::generate_service_client(t_service* tservice) {
     extends = type_name(tservice->get_extends());
     extends_client = extends + ".Client, ";
   } else {
-    extends_client = "IDisposable, ";
+    //modifyed by xiaohaixing@91.com
+    //extends_client = "IDisposable, ";
+    extends_client = "TServiceClient, ";
   }
 
   generate_csharp_doc(f_service_, tservice);
 
   indent(f_service_) <<
-    "public class Client : " << extends_client << "Iface {" << endl;
+    "public class Client : " << extends_client << "Interface {" << endl;
   indent_up();
   indent(f_service_) <<
-    "public Client(TProtocol prot) : this(prot, prot)" << endl;
+    //modifyed by xiaohaixing@91.com
+    //"public Client(TProtocol prot) : this(prot, prot)" << endl;
+    "public Client(TProtocol prot) : base(prot, prot)" << endl;
   scope_up(f_service_);
   scope_down(f_service_);
   f_service_ << endl;
 
   indent(f_service_) <<
     "public Client(TProtocol iprot, TProtocol oprot)";
-  if (!extends.empty()) {
+  //modifyed by xiaohaixing@91.com
+  //if (!extends.empty()) {
     f_service_ << " : base(iprot, oprot)";
-  }
+  //}
   f_service_ << endl;
 
   scope_up(f_service_);
-  if (extends.empty()) {
-    f_service_ <<
-      indent() << "iprot_ = iprot;" << endl <<
-      indent() << "oprot_ = oprot;" << endl;
-  }
+  //modifyed by xiaohaixing@91.com
+  //if (extends.empty()) {
+  //  f_service_ <<
+  //    indent() << "iprot_ = iprot;" << endl <<
+  //    indent() << "oprot_ = oprot;" << endl;
+  //}
   scope_down(f_service_);
 
   f_service_ << endl;
-
+  //modifyed by xiaohaixing@91.com
   if (extends.empty()) {
     f_service_ <<
-      indent() << "protected TProtocol iprot_;" << endl <<
-      indent() << "protected TProtocol oprot_;" << endl <<
+  //    indent() << "protected TProtocol iprot_;" << endl <<
+  //    indent() << "protected TProtocol oprot_;" << endl <<
       indent() << "protected int seqid_;" << endl << endl;
 
-    f_service_ << indent() << "public TProtocol InputProtocol" << endl;
-    scope_up(f_service_);
-    indent(f_service_) << "get { return iprot_; }" << endl;
-    scope_down(f_service_);
+    //f_service_ << indent() << "public TProtocol InputProtocol" << endl;
+    //scope_up(f_service_);
+    //indent(f_service_) << "get { return iprot_; }" << endl;
+    //scope_down(f_service_);
 
-    f_service_ << indent() << "public TProtocol OutputProtocol" << endl;
-    scope_up(f_service_);
-    indent(f_service_) << "get { return oprot_; }" << endl;
-    scope_down(f_service_);
-    f_service_ << endl << endl;
+    //f_service_ << indent() << "public TProtocol OutputProtocol" << endl;
+    //scope_up(f_service_);
+    //indent(f_service_) << "get { return oprot_; }" << endl;
+    //scope_down(f_service_);
+    //f_service_ << endl << endl;
     
     indent(f_service_) << "#region \" IDisposable Support \"" << endl;
     indent(f_service_) << "private bool _IsDisposed;" << endl << endl;
@@ -1554,19 +1563,19 @@ void t_csharp_generator::generate_service_client(t_service* tservice) {
 	if (nullable_) {
 	  if (type_can_be_null((*f_iter)->get_returntype())) {
 	    f_service_ <<
-	      indent() << "if (result.Success != null) {" << endl <<
-	      indent() << "  return result.Success;" << endl <<
+	      indent() << "if (result.success != null) {" << endl <<
+	      indent() << "  return result.success;" << endl <<
 	      indent() << "}" << endl;
 	  } else {
 	    f_service_ <<
-	      indent() << "if (result.Success.HasValue) {" << endl <<
-	      indent() << "  return result.Success.Value;" << endl <<
+	      indent() << "if (result.success.HasValue) {" << endl <<
+	      indent() << "  return result.success.Value;" << endl <<
 	      indent() << "}" << endl;
 	  }
 	} else {
 	  f_service_ <<
 	    indent() << "if (result.__isset.success) {" << endl <<
-	    indent() << "  return result.Success;" << endl <<
+	    indent() << "  return result.success;" << endl <<
 	    indent() << "}" << endl;
 	}
       }
@@ -1593,8 +1602,16 @@ void t_csharp_generator::generate_service_client(t_service* tservice) {
         indent(f_service_) <<
           "return;" << endl;
       } else {
-        f_service_ <<
-          indent() << "throw new TApplicationException(TApplicationException.ExceptionType.MissingResult, \"" << (*f_iter)->get_name() << " failed: unknown result\");" << endl;
+        //f_service_ <<
+        //  indent() << "throw new TApplicationException(TApplicationException.ExceptionType.MissingResult, \"" << (*f_iter)->get_name() << " failed: unknown result\");" << endl;
+        //xiaohaixing@91.com
+          if ((*f_iter)->get_returntype()->is_base_type()) {
+             f_service_ <<
+                 indent() << "throw new TApplicationException(TApplicationException.ExceptionType.MissingResult, \"" << (*f_iter)->get_name() << " failed: unknown result\");" << endl;
+          } else {
+             f_service_ <<
+                 indent() << "return null;" << endl;
+          }
       }
 
       scope_down(f_service_);
@@ -1768,7 +1785,7 @@ void t_csharp_generator::generate_process_function(t_service* tservice, t_functi
 
   f_service_ << indent();
   if (!tfunction->is_oneway() && !tfunction->get_returntype()->is_void()) {
-    f_service_ << "result.Success = ";
+    f_service_ << "result.success = ";
   }
   f_service_ <<
     "iface_." << tfunction->get_name() << "(";
@@ -2312,7 +2329,8 @@ std::string t_csharp_generator::make_valid_csharp_identifier( std::string const 
 
 std::string t_csharp_generator::prop_name(t_field* tfield) {
     string name (tfield->get_name());
-    name[0] = toupper(name[0]);
+    //xiaohaixing@91.com
+    //name[0] = toupper(name[0]);
     return name;
 }
 

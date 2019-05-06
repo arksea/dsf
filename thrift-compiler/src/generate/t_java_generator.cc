@@ -2284,6 +2284,8 @@ void t_java_generator::generate_service_interface(t_service* tservice) {
   }
   indent_down();
   f_service_ << indent() << "}" << endl << endl;
+
+  f_service_ << indent() << "public interface Interface extends Iface, java.io.Closeable {" << endl << indent() << "}" << endl << endl;
 }
 
 void t_java_generator::generate_service_async_interface(t_service* tservice) {
@@ -2337,7 +2339,7 @@ void t_java_generator::generate_service_client(t_service* tservice) {
   }
 
   indent(f_service_) <<
-    "public static class Client extends " << extends_client << " implements Iface {" << endl;
+    "public static class Client extends " << extends_client << " implements Interface {" << endl;
   indent_up();
 
   indent(f_service_) << "public static class Factory implements org.apache.thrift.TServiceClientFactory<Client> {" << endl;
@@ -2355,6 +2357,13 @@ void t_java_generator::generate_service_client(t_service* tservice) {
   indent(f_service_) << "}" << endl;
   indent_down();
   indent(f_service_) << "}" << endl << endl;
+  
+  indent(f_service_) << "public void close() throws java.io.IOException {" << endl;
+  indent_up();
+  indent(f_service_) << "this.getInputProtocol().getTransport().close();" << endl;
+  indent(f_service_) << "this.getOutputProtocol().getTransport().close();" <<endl;
+  indent_down();
+  indent(f_service_) << "}" << endl <<endl;
 
   indent(f_service_) << "public Client(org.apache.thrift.protocol.TProtocol prot)" << endl;
   scope_up(f_service_);
@@ -2468,8 +2477,16 @@ void t_java_generator::generate_service_client(t_service* tservice) {
       if ((*f_iter)->get_returntype()->is_void()) {
         indent(f_service_) << "return;" << endl;
       } else {
-        f_service_ <<
-          indent() << "throw new org.apache.thrift.TApplicationException(org.apache.thrift.TApplicationException.MISSING_RESULT, \"" << (*f_iter)->get_name() << " failed: unknown result\");" << endl;
+        //f_service_ <<
+        //  indent() << "throw new org.apache.thrift.TApplicationException(org.apache.thrift.TApplicationException.MISSING_RESULT, \"" << (*f_iter)->get_name() << " failed: unknown result\");" << endl;
+        //xiaohaixing@91.com
+        if ((*f_iter)->get_returntype()->is_base_type()) {
+          f_service_ <<
+            indent() << "throw new org.apache.thrift.TApplicationException(org.apache.thrift.TApplicationException.MISSING_RESULT, \"" << (*f_iter)->get_name() << " failed: unknown result\");" << endl;
+        } else {
+          f_service_ <<
+            indent() << "return null;" <<endl;
+        }
       }
 
       // Close function
